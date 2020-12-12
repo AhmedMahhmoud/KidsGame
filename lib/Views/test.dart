@@ -64,48 +64,44 @@ class _TestState extends State<Test> {
             print(seed);
           });
         },
-        child: Icon(Icons.refresh),
+        child: Icon(Icons.arrow_forward),
       ),
       body: Container(
         // color: Colors.grey,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                colorFilter: new ColorFilter.mode(
-                    Colors.black45.withOpacity(0.9), BlendMode.dstATop),
-                image: AssetImage("images/testimagee.jpg"),
-                fit: BoxFit.cover)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        //   decoration: BoxDecoration(
+        // image: DecorationImage(
+        //     colorFilter: new ColorFilter.mode(
+        //         Colors.black45.withOpacity(0.9), BlendMode.dstATop),
+        //     // image: AssetImage("images/testimagee.jpg"),
+        //     fit: BoxFit.cover)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  //  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: choice.keys.map((letter) {
-                    return Draggable<Image>(
-                      data: letter,
-                      child: Letter(
-                          letter: score[letter] == true
-                              ? Image.asset("images/correct.jpg")
-                              : letter),
-                      feedback: Letter(letter: letter),
-                      childWhenDragging: Container(),
-                    );
-                  }).toList(),
-                ),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: choice.keys
-                        .map((answer) => buildDagTarget(answer))
-                        .toList()
-                          ..shuffle(Random(seed))),
-              ],
+              //  crossAxisAlignment: CrossAxisAlignment.end,
+              children: choice.keys.map((letter) {
+                return Draggable<Image>(
+                  data: letter,
+                  child: Letter(
+                      letter: score[letter] == true
+                          ? Image.asset("images/correct.jpg")
+                          : letter),
+                  feedback: Letter(letter: letter),
+                  childWhenDragging: Container(),
+                );
+              }).toList(),
             ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children:
+                  choice.keys.map((answer) => buildDagTarget(answer)).toList()
+                    ..shuffle(Random(seed)),
+            ),
+            SizedBox()
           ],
         ),
       ),

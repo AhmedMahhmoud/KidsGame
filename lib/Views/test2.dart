@@ -16,7 +16,7 @@ class _Test2State extends State<Test2> {
     Image.asset('images/خ.jpg'): Image.asset('images/letter7.png'),
     Image.asset('images/د.jpg'): Image.asset('images/letter8.png'),
     Image.asset('images/ذ.jpg'): Image.asset('images/letter9.png'),
-    Image.asset('images/ر.png'): Image.asset('images/letter10.png'),
+    // Image.asset('images/ر.png'): Image.asset('images/letter10.png'),
     // Image.asset('images/ز.jpg'): Image.asset('images/letter11.png'),
   };
   //Map<Image, bool> score = {};
