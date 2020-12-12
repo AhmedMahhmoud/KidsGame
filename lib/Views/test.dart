@@ -16,7 +16,7 @@ class _TestState extends State<Test> {
     Image.asset('images/ت.jpg'): Image.asset('images/letter3.png'),
     Image.asset('images/ث.jpg'): Image.asset('images/letter4.png'),
     Image.asset('images/ج.png'): Image.asset('images/letter5.png'),
-    Image.asset('images/ح.jpg'): Image.asset('images/letter6.png'),
+    //  Image.asset('images/ح.jpg'): Image.asset('images/letter6.png'),
     // Image.asset('images/خ.jpg'): Image.asset('images/letter7.png'),
     // Image.asset('images/د.jpg'): Image.asset('images/letter8.png'),
     // Image.asset('images/ذ.jpg'): Image.asset('images/letter9.png'),
@@ -25,7 +25,7 @@ class _TestState extends State<Test> {
   };
   Map<Image, bool> score = {};
   int seed = 0;
-  AudioCache play = AudioCache();
+  final player = AudioCache();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,20 @@ class _TestState extends State<Test> {
       appBar: AppBar(
         backgroundColor: Color(0xfff59e5f),
         toolbarHeight: 70,
-        title: Text('Score ${score.length} /27'),
+        title: Center(
+            child: Padding(
+          padding: const EdgeInsets.only(right: 22),
+          child: Text('Score ${score.length} /27'),
+        )),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: Icon(
+              Icons.home,
+              size: 30,
+            ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xfff59e5f),
@@ -47,7 +60,7 @@ class _TestState extends State<Test> {
                           score: score,
                         )));
             //score.clear();
-            seed++;
+            //seed++;
             print(seed);
           });
         },
@@ -59,34 +72,40 @@ class _TestState extends State<Test> {
         decoration: BoxDecoration(
             image: DecorationImage(
                 colorFilter: new ColorFilter.mode(
-                    Colors.black45.withOpacity(0.5), BlendMode.dstATop),
-                image: AssetImage("images/testimage.jpg"),
-                fit: BoxFit.fill)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
+                    Colors.black45.withOpacity(0.9), BlendMode.dstATop),
+                image: AssetImage("images/testimagee.jpg"),
+                fit: BoxFit.cover)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Column(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //  crossAxisAlignment: CrossAxisAlignment.end,
-              children: choice.keys.map((letter) {
-                return Draggable<Image>(
-                  data: letter,
-                  child: Letter(
-                      letter: score[letter] == true
-                          ? Image.asset("images/correct.jpg")
-                          : letter),
-                  feedback: Letter(letter: letter),
-                  childWhenDragging: Container(),
-                );
-              }).toList(),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  //  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: choice.keys.map((letter) {
+                    return Draggable<Image>(
+                      data: letter,
+                      child: Letter(
+                          letter: score[letter] == true
+                              ? Image.asset("images/correct.jpg")
+                              : letter),
+                      feedback: Letter(letter: letter),
+                      childWhenDragging: Container(),
+                    );
+                  }).toList(),
+                ),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: choice.keys
+                        .map((answer) => buildDagTarget(answer))
+                        .toList()
+                          ..shuffle(Random(seed))),
+              ],
             ),
-            Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:
-                    choice.keys.map((answer) => buildDagTarget(answer)).toList()
-                      ..shuffle(Random(seed))),
           ],
         ),
       ),
@@ -99,10 +118,13 @@ class _TestState extends State<Test> {
         if (score[letter] == true) {
           return Container(
             alignment: Alignment.center,
-            color: Colors.white,
-            child: Image.asset('images/bravo.jpg'),
+            color: Colors.red,
+            child: Image.asset(
+              'images/bravo.jpg',
+              fit: BoxFit.fill,
+            ),
             height: 60,
-            width: 50,
+            width: 60,
           );
         } else {
           return choice[letter];
@@ -113,7 +135,7 @@ class _TestState extends State<Test> {
         setState(() {
           score[letter] = true;
         });
-        // play.play('audio/');
+        player.play('correct.mp3');
       },
       onLeave: (data) {
         //  print(data);

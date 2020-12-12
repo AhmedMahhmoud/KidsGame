@@ -3,7 +3,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 
 class Test2 extends StatefulWidget {
-  Map<Image, bool> score = {};
+  final Map<Image, bool> score;
   Test2({this.score});
   @override
   _Test2State createState() => _Test2State();
@@ -30,7 +30,19 @@ class _Test2State extends State<Test2> {
       appBar: AppBar(
         backgroundColor: Color(0xfff59e5f),
         toolbarHeight: 70,
-        title: Text('Score ${widget.score.length} /27'),
+        title: Padding(
+          padding: const EdgeInsets.only(right: 22),
+          child: Center(child: Text('Score ${widget.score.length} /27')),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: Icon(
+              Icons.home,
+              size: 30,
+            ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xfff59e5f),
