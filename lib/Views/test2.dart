@@ -1,29 +1,25 @@
 import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kids_game/model/choice.dart';
-import 'test2.dart';
 
-class Test extends StatefulWidget {
+class Test2 extends StatefulWidget {
+  Map<Image, bool> score = {};
+  Test2({this.score});
   @override
-  _TestState createState() => _TestState();
+  _Test2State createState() => _Test2State();
 }
 
-class _TestState extends State<Test> {
+class _Test2State extends State<Test2> {
   Map<Image, Image> choice = {
-    Image.asset('images/أ.jpg'): Image.asset('images/letter1.png'),
-    Image.asset('images/ب.jpg'): Image.asset('images/letter2.png'),
-    Image.asset('images/ت.jpg'): Image.asset('images/letter3.png'),
-    Image.asset('images/ث.jpg'): Image.asset('images/letter4.png'),
     Image.asset('images/ج.png'): Image.asset('images/letter5.png'),
     Image.asset('images/ح.jpg'): Image.asset('images/letter6.png'),
-    // Image.asset('images/خ.jpg'): Image.asset('images/letter7.png'),
-    // Image.asset('images/د.jpg'): Image.asset('images/letter8.png'),
-    // Image.asset('images/ذ.jpg'): Image.asset('images/letter9.png'),
-    // Image.asset('images/ر.png'): Image.asset('images/letter10.png'),
+    Image.asset('images/خ.jpg'): Image.asset('images/letter7.png'),
+    Image.asset('images/د.jpg'): Image.asset('images/letter8.png'),
+    Image.asset('images/ذ.jpg'): Image.asset('images/letter9.png'),
+    Image.asset('images/ر.png'): Image.asset('images/letter10.png'),
     // Image.asset('images/ز.jpg'): Image.asset('images/letter11.png'),
   };
-  Map<Image, bool> score = {};
+  //Map<Image, bool> score = {};
   int seed = 0;
   AudioCache play = AudioCache();
 
@@ -34,19 +30,13 @@ class _TestState extends State<Test> {
       appBar: AppBar(
         backgroundColor: Color(0xfff59e5f),
         toolbarHeight: 70,
-        title: Text('Score ${score.length} /27'),
+        title: Text('Score ${widget.score.length} /27'),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xfff59e5f),
         onPressed: () {
           setState(() {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (ctx) => Test2(
-                          score: score,
-                        )));
-            //score.clear();
+            widget.score.clear();
             seed++;
             print(seed);
           });
@@ -73,7 +63,7 @@ class _TestState extends State<Test> {
                 return Draggable<Image>(
                   data: letter,
                   child: Letter(
-                      letter: score[letter] == true
+                      letter: widget.score[letter] == true
                           ? Image.asset("images/correct.jpg")
                           : letter),
                   feedback: Letter(letter: letter),
@@ -96,7 +86,7 @@ class _TestState extends State<Test> {
   Widget buildDagTarget(letter) {
     return DragTarget<Image>(
       builder: (BuildContext context, List<Image> incoming, List rejected) {
-        if (score[letter] == true) {
+        if (widget.score[letter] == true) {
           return Container(
             alignment: Alignment.center,
             color: Colors.white,
@@ -111,7 +101,7 @@ class _TestState extends State<Test> {
       onWillAccept: (data) => data == letter,
       onAccept: (data) {
         setState(() {
-          score[letter] = true;
+          widget.score[letter] = true;
         });
         // play.play('audio/');
       },
