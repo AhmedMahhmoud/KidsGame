@@ -2,6 +2,9 @@ import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 
+import 'package:kids_game/Widgets/choice.dart';
+import 'test3.dart';
+
 class Test2 extends StatefulWidget {
   final Map<Image, bool> score;
   Test2({this.score});
@@ -10,86 +13,145 @@ class Test2 extends StatefulWidget {
 }
 
 class _Test2State extends State<Test2> {
-  Map<Image, Image> choice = {
-    Image.asset('images/ج.png'): Image.asset('images/letter5.png'),
-    Image.asset('images/ح.jpg'): Image.asset('images/letter6.png'),
-    Image.asset('images/خ.jpg'): Image.asset('images/letter7.png'),
-    Image.asset('images/د.jpg'): Image.asset('images/letter8.png'),
-    Image.asset('images/ذ.jpg'): Image.asset('images/letter9.png'),
-    // Image.asset('images/ر.png'): Image.asset('images/letter10.png'),
-    // Image.asset('images/ز.jpg'): Image.asset('images/letter11.png'),
-  };
-  //Map<Image, bool> score = {};
   int seed = 0;
-  AudioCache play = AudioCache();
+  int wrong = 0;
 
+  @override
+  void initState() {
+    //player.play("sunnyday.mp3");
+    setState(() {
+      seed = Random().nextInt(10);
+      print(seed);
+    });
+    super.initState();
+  }
+
+  static AudioCache player = AudioCache(prefix: "sounds/");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xfff59e5f),
-        toolbarHeight: 70,
-        title: Padding(
-          padding: const EdgeInsets.only(right: 22),
-          child: Center(child: Text('Score ${widget.score.length} /27')),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: Icon(
-              Icons.home,
-              size: 30,
-            ),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xfff59e5f),
+      //   toolbarHeight: 70,
+      //   title: Center(
+      //       child: Padding(
+      //     padding: const EdgeInsets.only(right: 22),
+      //     child: Text('Score ${score.length} /27'),
+      //   )),
+      //   actions: [
+      //     Padding(
+      //       padding: const EdgeInsets.only(right: 15),
+      //       child: Icon(
+      //         Icons.home,
+      //         size: 30,
+      //       ),
+      //     )
+      //   ],
+      // ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xfff59e5f),
         onPressed: () {
           setState(() {
-            widget.score.clear();
-            seed++;
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (ctx) => Test3(
+                          score: widget.score,
+                        )));
+            //score.clear();
+            //seed++;
             print(seed);
           });
         },
-        child: Icon(Icons.refresh),
+        child: Icon(Icons.arrow_forward),
       ),
-      body: Container(
-        // color: Colors.grey,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                colorFilter: new ColorFilter.mode(
-                    Colors.black45.withOpacity(0.5), BlendMode.dstATop),
-                image: AssetImage("images/testimage.jpg"),
-                fit: BoxFit.fill)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //  crossAxisAlignment: CrossAxisAlignment.end,
-              children: choice.keys.map((letter) {
-                return Draggable<Image>(
-                  data: letter,
-                  child: Letter(
-                      letter: widget.score[letter] == true
-                          ? Image.asset("images/correct.jpg")
-                          : letter),
-                  feedback: Letter(letter: letter),
-                  childWhenDragging: Container(),
-                );
-              }).toList(),
-            ),
-            Column(
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          //color: Colors.white,
+          //  color: Colors.grey,
+          // height: 400,
+          // decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //         colorFilter: new ColorFilter.mode(
+          //             Colors.black45.withOpacity(0.9), BlendMode.dstATop),
+          //         image: AssetImage('images/testimagee.jpg'),
+          //         fit: BoxFit.fill)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        //
+                        // Colors.black45.withOpacity(0.9), BlendMode.dstATop),
+                        image: AssetImage('images/testbackground.jpg'),
+                        fit: BoxFit.fill)),
+
+                //color: Colors.green,
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: 53,
+                      top: 37,
+                      child: Text(
+                        'Score: ${widget.score.length}/27 ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    )
+                  ],
+                ),
+                //child: Image.asset('images/testbackground.jpg'),
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:
-                    choice.keys.map((answer) => buildDagTarget(answer)).toList()
-                      ..shuffle(Random(seed))),
-          ],
+                //  crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: choice1.keys
+                        .map((answer) => buildDagTarget(answer))
+                        .toList()
+                          ..shuffle(Random(seed)),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //  crossAxisAlignment: CrossAxisAlignment.end,
+                    children: choice1.keys.map((letter) {
+                      return Draggable<Image>(
+                        data: letter,
+                        child: Letter(
+                            letter: widget.score[letter] == true
+                                ? Image.asset("images/correct.jpg")
+                                : letter),
+                        feedback: Letter(letter: letter),
+                        childWhenDragging: Container(
+                          color: Colors.red,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -100,25 +162,39 @@ class _Test2State extends State<Test2> {
       builder: (BuildContext context, List<Image> incoming, List rejected) {
         if (widget.score[letter] == true) {
           return Container(
+            margin: EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
-            color: Colors.white,
-            child: Image.asset('images/bravo.jpg'),
+            child: Image.asset(
+              'images/bravo.jpg',
+              fit: BoxFit.fill,
+            ),
             height: 60,
-            width: 50,
+            width: 90,
           );
         } else {
-          return choice[letter];
+          return Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: choice1[letter],
+              width: 90,
+              height: 60);
         }
+
+        // print(incoming[0]);
       },
       onWillAccept: (data) => data == letter,
       onAccept: (data) {
         setState(() {
           widget.score[letter] = true;
         });
-        // play.play('audio/');
+        player.play('correct.mp3');
+
+        print('wwww $wrong');
       },
       onLeave: (data) {
         //  print(data);
+      },
+      onMove: (data) {
+        print(data.toString());
       },
     );
   }
@@ -132,9 +208,12 @@ class Letter extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Container(
+        margin: EdgeInsets.only(bottom: 10, left: 5),
         alignment: Alignment.center,
-        height: 50,
+        height: 60,
+        width: 90,
         child: Container(
+          margin: EdgeInsets.only(bottom: 10, left: 5),
           child: letter,
         ),
       ),

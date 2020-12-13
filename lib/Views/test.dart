@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kids_game/model/choice.dart';
+import 'package:kids_game/Widgets/choice.dart';
 import 'test2.dart';
 
 class Test extends StatefulWidget {
@@ -10,99 +10,141 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  Map<Image, Image> choice = {
-    Image.asset('images/أ.jpg'): Image.asset('images/letter1.png'),
-    Image.asset('images/ب.jpg'): Image.asset('images/letter2.png'),
-    Image.asset('images/ت.jpg'): Image.asset('images/letter3.png'),
-    Image.asset('images/ث.jpg'): Image.asset('images/letter4.png'),
-    Image.asset('images/ج.png'): Image.asset('images/letter5.png'),
-    //  Image.asset('images/ح.jpg'): Image.asset('images/letter6.png'),
-    // Image.asset('images/خ.jpg'): Image.asset('images/letter7.png'),
-    // Image.asset('images/د.jpg'): Image.asset('images/letter8.png'),
-    // Image.asset('images/ذ.jpg'): Image.asset('images/letter9.png'),
-    // Image.asset('images/ر.png'): Image.asset('images/letter10.png'),
-    // Image.asset('images/ز.jpg'): Image.asset('images/letter11.png'),
-  };
   Map<Image, bool> score = {};
   int seed = 0;
-  final player = AudioCache();
+  int wrong = 0;
 
+  @override
+  void initState() {
+    //player.play("sunnyday.mp3");
+    setState(() {
+      seed = Random().nextInt(10);
+      print(seed);
+    });
+    super.initState();
+  }
+
+  static AudioCache player = AudioCache(prefix: "sounds/");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xfff59e5f),
-        toolbarHeight: 70,
-        title: Center(
-            child: Padding(
-          padding: const EdgeInsets.only(right: 22),
-          child: Text('Score ${score.length} /27'),
-        )),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: Icon(
-              Icons.home,
-              size: 30,
-            ),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xfff59e5f),
+      //   toolbarHeight: 70,
+      //   title: Center(
+      //       child: Padding(
+      //     padding: const EdgeInsets.only(right: 22),
+      //     child: Text('Score ${score.length} /27'),
+      //   )),
+      //   actions: [
+      //     Padding(
+      //       padding: const EdgeInsets.only(right: 15),
+      //       child: Icon(
+      //         Icons.home,
+      //         size: 30,
+      //       ),
+      //     )
+      //   ],
+      // ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xfff59e5f),
         onPressed: () {
-          setState(() {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (ctx) => Test2(
-                          score: score,
-                        )));
-            //score.clear();
-            //seed++;
-            print(seed);
-          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (ctx) => Test2(
+                        score: score,
+                      )));
         },
         child: Icon(Icons.arrow_forward),
       ),
-      body: Container(
-        // color: Colors.grey,
-        height: MediaQuery.of(context).size.height,
-        //   decoration: BoxDecoration(
-        // image: DecorationImage(
-        //     colorFilter: new ColorFilter.mode(
-        //         Colors.black45.withOpacity(0.9), BlendMode.dstATop),
-        //     // image: AssetImage("images/testimagee.jpg"),
-        //     fit: BoxFit.cover)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //  crossAxisAlignment: CrossAxisAlignment.end,
-              children: choice.keys.map((letter) {
-                return Draggable<Image>(
-                  data: letter,
-                  child: Letter(
-                      letter: score[letter] == true
-                          ? Image.asset("images/correct.jpg")
-                          : letter),
-                  feedback: Letter(letter: letter),
-                  childWhenDragging: Container(),
-                );
-              }).toList(),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children:
-                  choice.keys.map((answer) => buildDagTarget(answer)).toList()
-                    ..shuffle(Random(seed)),
-            ),
-            SizedBox()
-          ],
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          //color: Colors.white,
+          //  color: Colors.grey,
+          // height: 400,
+          // decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //         colorFilter: new ColorFilter.mode(
+          //             Colors.black45.withOpacity(0.9), BlendMode.dstATop),
+          //         image: AssetImage('images/testimagee.jpg'),
+          //         fit: BoxFit.fill)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        //
+                        // Colors.black45.withOpacity(0.9), BlendMode.dstATop),
+                        image: AssetImage('images/testbackground.jpg'),
+                        fit: BoxFit.fill)),
+
+                //color: Colors.green,
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: 53,
+                      top: 37,
+                      child: Text(
+                        'Score: ${score.length}/27 ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    )
+                  ],
+                ),
+                //child: Image.asset('images/testbackground.jpg'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //  crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: choice.keys
+                        .map((answer) => buildDagTarget(answer))
+                        .toList()
+                          ..shuffle(Random(seed)),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //  crossAxisAlignment: CrossAxisAlignment.end,
+                    children: choice.keys.map((letter) {
+                      return Draggable<Image>(
+                        data: letter,
+                        child: Letter(
+                            letter: score[letter] == true
+                                ? Image.asset("images/correct.jpg")
+                                : letter),
+                        feedback: Letter(letter: letter),
+                        childWhenDragging: Container(
+                          color: Colors.red,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -113,18 +155,24 @@ class _TestState extends State<Test> {
       builder: (BuildContext context, List<Image> incoming, List rejected) {
         if (score[letter] == true) {
           return Container(
+            margin: EdgeInsets.only(bottom: 5),
             alignment: Alignment.center,
-            color: Colors.red,
             child: Image.asset(
               'images/bravo.jpg',
               fit: BoxFit.fill,
             ),
             height: 60,
-            width: 60,
+            width: 90,
           );
         } else {
-          return choice[letter];
+          return Container(
+              margin: EdgeInsets.only(bottom: 5),
+              child: choice[letter],
+              width: 90,
+              height: 60);
         }
+
+        // print(incoming[0]);
       },
       onWillAccept: (data) => data == letter,
       onAccept: (data) {
@@ -132,9 +180,14 @@ class _TestState extends State<Test> {
           score[letter] = true;
         });
         player.play('correct.mp3');
+
+        print('wwww $wrong');
       },
       onLeave: (data) {
         //  print(data);
+      },
+      onMove: (data) {
+        print(data.toString());
       },
     );
   }
@@ -148,9 +201,12 @@ class Letter extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Container(
+        margin: EdgeInsets.only(bottom: 5, left: 10),
         alignment: Alignment.center,
-        height: 50,
+        height: 60,
+        width: 90,
         child: Container(
+          margin: EdgeInsets.only(bottom: 5, left: 10),
           child: letter,
         ),
       ),
