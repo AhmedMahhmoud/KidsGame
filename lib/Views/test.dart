@@ -66,7 +66,7 @@ class _TestState extends State<Test> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Colors.red,
+                  color: Colors.transparent,
                   image: DecorationImage(
                       image: AssetImage(
                         'images/testbackground.jpg',
@@ -194,26 +194,33 @@ class _TestState extends State<Test> {
         },
         //onWillAccept: (data) => data == letter,
         onAccept: (data) {
-          {
-            if (data == letter) {
+          if (data == letter) {
+            if (!score.containsKey(letter)) {
               setState(() {
                 score[letter] = true;
-                print('true letter $letter');
-                print(data);
+                //   print(score.keys.length);
+                // print('leeenn ${score.keys.length}');
+                print('dataaa 1 $data');
                 right++;
               });
 
               player.play('correct.mp3');
-            } else {
+            }
+          } else {
+            if (!score.containsKey(data)) {
               setState(() {
-                print('false letter $letter');
-                print(data);
+                //  print('false letter $letter');
+                print('dataaa $data');
                 score[data] = false;
+                //   print('leeenn ${score.keys.length}');
               });
 
               player.play('wrong answer.mp3');
             }
           }
+
+          // var list=score.values.toList();
+          for (var value in score.keys) print('keeey $value');
         },
         onLeave: (data) {});
   }
