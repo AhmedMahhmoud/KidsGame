@@ -194,7 +194,7 @@ class _TestState extends State<Test> {
         },
         //onWillAccept: (data) => data == letter,
         onAccept: (data) {
-          if (!score.containsKey(letter) && !score.containsKey(data)) {
+          {
             if (data == letter) {
               setState(() {
                 score[letter] = true;
@@ -204,7 +204,7 @@ class _TestState extends State<Test> {
               });
 
               player.play('correct.mp3');
-            } else if (data != letter) {
+            } else {
               setState(() {
                 print('false letter $letter');
                 print(data);
