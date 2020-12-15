@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kids_game/Views/Home.dart';
 
-import 'Views/Home.dart';
+//import 'Views/Home.dart';
 
 import 'Views/test.dart';
 
@@ -15,11 +16,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: "تعليم الحروف",
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Test(),
+      home: HomePage(),
     );
   }
 }
