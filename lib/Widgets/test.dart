@@ -250,6 +250,8 @@ List<LettersWidget> mywidget = [
     example1Image: "images/يد.png",
     example2Image: "images/يمامه.jpg",
     letterExample1: "يد",
+
+    
     letterExample2: "يمامه",
     letterSoundEffect: "029-yaa.mp3",
   ),
