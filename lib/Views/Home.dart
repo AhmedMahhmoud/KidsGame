@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   static AudioCache player = AudioCache(prefix: "sounds/");
   @override
   void initState() {
+    
     player.play("sunnyday.mp3");
 
     super.initState();

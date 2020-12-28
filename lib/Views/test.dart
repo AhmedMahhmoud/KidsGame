@@ -110,7 +110,7 @@ class _TestState extends State<Test> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
-                        //width: getkDeviceWidthFactor(context, 3),
+                      
                         ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -168,38 +168,20 @@ class _TestState extends State<Test> {
   Widget buildDagTarget(letter) {
     return DragTarget<Image>(
         builder: (BuildContext context, List<Image> incoming, List rejected) {
-          // if (score[letter] == true) {
-          //   return Container(
-          //     margin: EdgeInsets.only(bottom: 5),
-          //     alignment: Alignment.center,
-          //     child: Image.asset(
-          //       'images/bravo.jpg',
-          //       fit: BoxFit.fill,
-          //     ),
-          //     height: 60,
-          //     width: 90,
-          //   );
-          // } else if (score[letter] == false) {
-          //   return Container(
-          //       margin: EdgeInsets.only(bottom: 5),
-          //       child: Image.asset("images/wrong.jpg"),
-          //       width: 90,
-          //       height: 60);
-          // } else {
+  
           return Container(
               margin: EdgeInsets.only(bottom: 7),
               child: choice[letter],
               width: getkDeviceWidthFactor(context, 90),
               height: getkDeviceHeightFactor(context, 60));
         },
-        //onWillAccept: (data) => data == letter,
+ 
         onAccept: (data) {
           if (data == letter) {
             if (!score.containsKey(letter)) {
               setState(() {
                 score[letter] = true;
-                //   print(score.keys.length);
-                // print('leeenn ${score.keys.length}');
+      
                 print('dataaa 1 $data');
                 right++;
               });
@@ -209,18 +191,17 @@ class _TestState extends State<Test> {
           } else {
             if (!score.containsKey(data)) {
               setState(() {
-                //  print('false letter $letter');
+       
                 print('dataaa $data');
                 score[data] = false;
-                //   print('leeenn ${score.keys.length}');
+             
               });
 
               player.play('wrong answer.mp3');
             }
           }
 
-          // var list=score.values.toList();
-          for (var value in score.keys) print('keeey $value');
+        
         },
         onLeave: (data) {});
   }

@@ -19,7 +19,7 @@ Map<Image, Image> choice2 = {
 };
 
 Map<Image, Image> choice3 = {
-  // Image.asset('images/س.png'): Image.asset('images/سمكه.jpg'),
+  
   Image.asset('images/ش.jpg'): Image.asset('images/شجره.jpg'),
   Image.asset('images/ص.jpg'): Image.asset('images/صبار.jpg'),
   Image.asset('images/ض.jpg'): Image.asset('images/ضفضع.jpg'),

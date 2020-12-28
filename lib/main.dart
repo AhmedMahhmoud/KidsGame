@@ -3,7 +3,6 @@ import 'package:kids_game/Views/Home.dart';
 
 //import 'Views/Home.dart';
 
-import 'Views/test.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
